@@ -1,27 +1,10 @@
 from flask import Flask
-import psycopg2
-
-msg=""
-try:
-    conn= psycopg2.connect(
-        host='db',
-        user='jonas',
-        password='password',
-        port='5432'
-    )
-    print("===================Conexion exitosa")
-    msg="Conexion Exitosa"
-except Exception as ex:
-    msg = f"Error Connection DB: {ex}"
-    print(ex)
+from controllers.auth import controller_endpoints
+from models.user import conn
 
 app = Flask(__name__)
+controller_endpoints(app)
 
-
-@app.route('/', methods=['GET'])
-def home():
-    print("Entrando")
-    return msg
 
 
 if __name__ == '__main__':
