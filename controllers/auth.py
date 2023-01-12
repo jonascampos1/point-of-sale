@@ -3,6 +3,7 @@ import json
 from flask import request, jsonify
 import re
 from services.user import get_users,create_user
+from services.auth import auth_user
 import hashlib
 from datetime import datetime, timezone
 import secrets
@@ -16,7 +17,13 @@ def controller_endpoints(app):
     @app.route(route_api,methods=["GET"])
     def home():
         r = get_users()
-        return f'{r}'
+        users = []
+        for data in r:
+            users.append({'username': data.username,
+                          'created_at': data.created_at
+                          })
+
+        return users
 
     @app.route(route_api+'login', methods=['POST'])
     def login():
@@ -33,7 +40,7 @@ def controller_endpoints(app):
             response = jsonify({'msg':'Bad parameters', 'status_code': '400'})
             return response, 400
 
-        #auth_user = check_db_user()
+        response = auth_user(username, password)
 
 
         return {'username': username , 'password': password}
