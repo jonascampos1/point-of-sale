@@ -29,21 +29,21 @@ def controller_endpoints(app):
     def login():
         username = request.json.get("username")
         password = request.json.get("password")
-        #Validating
-        """if username == '' or password == '':
-            response = jsonify({'msg':'Bad parameters', 'status_code': '400'})
-            return response, 400"""
+        #Validating username only a-z A-Z 16 chars max lenght
         if not re.match("^[a-zA-Z]{1,16}$", username):
-            response = jsonify({'msg':'Bad parameters', 'status_code': '400'})
+            response = jsonify({'msg': 'Bad parameters', 'status_code': '400'})
             return response, 400
+        # Validating pin password only 0-9 - 6 digits lenght
         if not re.match("^[0-9]{6}$", password):
-            response = jsonify({'msg':'Bad parameters', 'status_code': '400'})
+            response = jsonify({'msg': 'Bad parameters', 'status_code': '400'})
             return response, 400
 
-        response = auth_user(username, password)
+        auth = auth_user(username, password)
+        if auth == 1:
+            return jsonify({'msg': 'Auth Success'}), 200
+        else:
+            return jsonify({'msg': 'Auth Failure'}), 401
 
-
-        return {'username': username , 'password': password}
 
     @app.route(route_api, methods=['POST'])
     def create():
