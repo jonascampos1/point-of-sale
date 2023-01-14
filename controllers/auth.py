@@ -17,7 +17,7 @@ def controller(app):
 
     route_api='/api/v1/'
 
-    @app.route(route_api+'users', methods=["GET"])
+"""    @app.route(route_api+'users', methods=["GET"])
     def users():
 
         r = user_service.get_users()
@@ -29,6 +29,7 @@ def controller(app):
 
 
         return users
+"""
 
     @app.route(route_api+'login', methods=['POST'])
     def login():
