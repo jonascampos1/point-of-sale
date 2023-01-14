@@ -12,3 +12,7 @@ def get_users():
 def create_user(user: UserM):
     result = conn.execute(userTable.insert().values(user))
     return conn.execute(userTable.select().where(userTable.c.id == result.lastrowid)).first()
+
+def verify_user_exist(username):
+   result = conn.execute(userTable.select().where(userTable.c.username == username)).first()
+   return result

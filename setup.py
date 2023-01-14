@@ -1,14 +1,15 @@
 from flask import Flask
-from controllers.auth import controller_endpoints
+import os
+from controllers.auth import controller
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import VARCHAR, DateTime, text
-
-
+from flask_cors import CORS
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://jonas:password@localhost:5432/jonas'
+CORS(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://'+os.getenv('POSTGRES_USER')+':'+os.getenv('POSTGRES_PASSWORD')+'@db:5432/jonas'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db, directory='config/db/postgres/migrations')
 
@@ -20,9 +21,10 @@ class Users(db.Model):
     created_at = db.Column(DateTime, nullable=False, server_default=text('NOW()'))
     updated_at = db.Column(DateTime, nullable=False, onupdate=text('NOW()'))
     deleted_at = db.Column(DateTime, nullable=True)
+    test = db.Column(VARCHAR(10), nullable=True)
 
 
-controller_endpoints(app)
+controller(app)
 
 
 if __name__ == '__main__':

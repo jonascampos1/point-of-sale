@@ -1,6 +1,6 @@
 from sqlalchemy import Table, Column
 from config.db import meta, engine
-from sqlalchemy.sql.sqltypes import INTEGER, VARCHAR, SMALLINT, TEXT, DATETIME
+from sqlalchemy.sql.sqltypes import INTEGER, VARCHAR, SMALLINT, TEXT, DateTime
 from typing import Optional
 from pydantic import BaseModel
 
@@ -9,12 +9,12 @@ userTable = Table("users", meta,
                   Column("username", VARCHAR(150)),
                   Column("password", SMALLINT),
                   Column("salt", VARCHAR(45)),
-                  Column("created_at", DATETIME),
-                  Column("updated_at", DATETIME),
-                  Column("deleted_at", DATETIME)
+                  Column("created_at", DateTime),
+                  Column("updated_at", DateTime),
+                  Column("deleted_at", DateTime)
                 )
 
-meta.create_all(engine)
+#meta.create_all(engine)
 
 class UserM(BaseModel):
     id: Optional[str]
