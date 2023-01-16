@@ -1,4 +1,4 @@
-from models.user import UserM, userTable
+from models.user import userTable
 from config.db import conn
 import hashlib
 
@@ -10,7 +10,7 @@ def auth_user(username, password):
                  .where(userTable.c.username == username))\
         .first()
 
-    if res == None:
+    if res is None:
         return 0
     else:
         salt = res.salt

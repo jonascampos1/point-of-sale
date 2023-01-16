@@ -14,9 +14,8 @@ userTable = Table("users", meta,
                   Column("deleted_at", DateTime)
                 )
 
-#meta.create_all(engine)
 
-class UserM(BaseModel):
+class User(BaseModel):
     id: Optional[str]
     username: str
     password: int

@@ -11,35 +11,18 @@ import secrets
 
 
 def controller(app):
-    @app.route('/', methods=["GET"])
-    def start():
-        return "Online"
-
-    route_api='/api/v1/'
-
-"""    @app.route(route_api+'users', methods=["GET"])
-    def users():
-
-        r = user_service.get_users()
-        users = []
-        for data in r:
-            users.append({'username': data.username,
-                          'created_at': data.created_at
-                          })
+    route_api = '/api/v1/'
 
 
-        return users
-"""
-
-    @app.route(route_api+'login', methods=['POST'])
+    @app.route(route_api + 'login', methods=['POST'])
     def login():
         username = request.json.get("username")
         password = request.json.get("password")
-        #Validating username only a-z A-Z 16 chars max lenght
+
         if not re.match("^[a-zA-Z]{1,16}$", username):
             response = jsonify({'msg': 'Bad parameters', 'status_code': '400'})
             return response, 400
-        # Validating pin password only 0-9 - 6 digits lenght
+
         if not re.match("^[0-9]{6}$", password):
             response = jsonify({'msg': 'Bad parameters', 'status_code': '400'})
             return response, 400
@@ -50,16 +33,15 @@ def controller(app):
         else:
             return jsonify({'msg': 'Auth Failure'}), 401
 
-
-    @app.route(route_api+'users', methods=['POST'])
+    @app.route(route_api + 'users', methods=['POST'])
     def create():
         username = request.json.get('username')
         password = request.json.get('password')
-        # Validating username only a-z A-Z 16 chars max lenght
+
         if not re.match("^[a-zA-Z]{1,16}$", username):
             response = jsonify({'msg': 'Bad parameters', 'status_code': '400'})
             return response, 400
-        # Validating pin password only 0-9 - 6 digits lenght
+
         if not re.match("^[0-9]{6}$", password):
             response = jsonify({'msg': 'Bad parameters', 'status_code': '400'})
             return response, 400
@@ -77,7 +59,6 @@ def controller(app):
             "salt": salt,
             "created_at": datetime.now(timezone.utc),
             "updated_at": datetime.now(timezone.utc),
-            #"deleted_at": datetime.now(timezone.utc)
         }
         r = create_user(user_new)
         return {'User created': f'{r}:yes'}

@@ -9,7 +9,12 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://'+os.getenv('POSTGRES_USER')+':'+os.getenv('POSTGRES_PASSWORD')+'@db:5432/jonas'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://'\
+                                        +os.getenv('POSTGRES_USER')+':'\
+                                        +os.getenv('POSTGRES_PASSWORD')+'@'\
+                                        +os.getenv('POSTGRES_HOST')+':'\
+                                        +os.getenv('POSTGRES_PORT')+'/'\
+                                        +os.getenv('POSTGRES_DB')+''
 db = SQLAlchemy(app)
 migrate = Migrate(app, db, directory='config/db/postgres/migrations')
 
@@ -28,4 +33,4 @@ controller(app)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3001, debug=True)
+    app.run(host='0.0.0.0', port=3001)
